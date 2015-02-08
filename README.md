@@ -5,6 +5,7 @@ This program has only been tested on Ubuntu 14.10 Linux.
 
 ---
 Dependencies:
+
 	- python (of course)
 	- pactl
 	- sox
