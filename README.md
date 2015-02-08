@@ -12,6 +12,7 @@ Dependencies:
 	- vlc (must be installed completely to have cvlc command available)
 	- espeak (optional, if you don't want to use Watson)
 	- pycrypto (optional, if you want to use AES functionality)
+	- PyAudio + [SpeechRecognition](https://pypi.python.org/pypi/SpeechRecognition/)
 	
 -----
 To use Watson. You need to have text to speech application installed on your Bluemix account and replace the link to your application in config.txt
