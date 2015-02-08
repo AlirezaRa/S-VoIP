@@ -1,0 +1,7 @@
+[System]
+
+# Enter the absolute path to eSpeak.
+ESPEAK_PATH = /usr/bin/espeak
+
+# Enter the url to the Text to Speech synthesizer on your BlueMix.
+BM_TEXT2SPEECH_LINK = http://text2speech.mybluemix.net/
