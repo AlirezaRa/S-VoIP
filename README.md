@@ -10,7 +10,7 @@ Dependencies:
 - pactl (Must have PULSE_SINK & PULSE_SOURCE environmental variables available.)
 - sox
 - vlc (must be installed completely to have cvlc command available)
-- Skype (You could changer your messanger in config.txt)
+- Skype (You could change your messanger in config.txt)
 - espeak (optional, if you don't want to use Watson or Google)
 - pycrypto (optional, if you want to use AES functionality)
 - Watson's Text to Speech synthesis app running on Bluemix (optional)
