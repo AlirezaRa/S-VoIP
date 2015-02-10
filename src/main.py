@@ -17,10 +17,12 @@ MESSENGER = configParser.get('System', 'MESSENGER')
 
 
 def checkDataDir():
+    # r'../data/temp' directory is used to temporary storage of to-be-transmitted audio-files.
     if not os.path.exists("../data/temp"):
         os.makedirs("../data/temp")
 
 def loadNull():
+    # Loading null-sink-module for the messanger.
     procID = subprocess.check_output("pactl load-module module-null-sink",
                                      shell=True)
     procID = procID.rstrip('\n')
@@ -32,12 +34,12 @@ def unloadNull(ID):
 
 
 def callMessenger():
-    # Need to have loaded null.monitor first
+    # Must have used loadNull() first. Also, you may change the messenger type in config.txt
     subprocess.Popen(str("PULSE_SOURCE=null.monitor " + MESSENGER), shell=True)
 
 
 def testl2(language):
-    language
+    # Simple test of two character abbreviation of a language. The error are being handled by the programs like "espeak".
     if len(language) == 2 and language.lower() != "en":
         return True
     return False
