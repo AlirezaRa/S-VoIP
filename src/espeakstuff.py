@@ -33,8 +33,9 @@ def mainSpeechEng():
 def say(thing, lang = ''):
     if lang != '':
         trtemp = gtranslate.translate(thing, lang, "en")
-        subprocess.Popen('PULSE_SINK=null espeak "' + trtemp +
-                     '" -v' + lang + ' -s 100', shell=True)
+        p = subprocess.Popen('PULSE_SINK=null espeak "' + trtemp +
+                             '" -v' + lang + ' -s 100', shell=True)
+        p.communicate()
 
 
 def main(lang):

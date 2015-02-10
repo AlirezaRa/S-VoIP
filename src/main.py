@@ -87,7 +87,7 @@ if __name__ == "__main__":
                 espeakstuff.main(language)
         elif command == "et":
             # Calling eSpeak + Speech
-            espeakstuff.mainSpeech()
+            espeakstuff.mainSpeechEng()
         elif command == "etl":
             # Calling eSpeak + Speech + Translate
             language = str(raw_input("Enter the two character code of your language: "))
