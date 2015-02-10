@@ -2,7 +2,9 @@
 
 (Synthetic) Voice over IP
 
-This program has only been tested on Ubuntu 14.10 Linux. To run, clone the repo and in src directory, enter "python main.py".
+To run, clone the repo (or click on "Download Zip" to your right and extract the content). Then, in src directory, enter:
+>>> $ python main.py.
+Inside the program, type "h" for help.
 
 ---
 Dependencies:
