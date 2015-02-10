@@ -4,9 +4,8 @@ import subprocess
 import sys
 import espeakstuff
 import watsonstuff
-import speechRecognition as sr
+import gspeechstuff
 import aes
-import getpass
 
 
 def loadNull():
@@ -25,6 +24,13 @@ def callSkype():
     subprocess.Popen("PULSE_SOURCE=null.monitor skype", shell=True)
 
 
+def testl2(language):
+    language
+    if len(language) == 2 and language.lower() != "en":
+        return True
+    return False
+
+
 if __name__ == "__main__":
     pactlID = loadNull()
     if type(pactlID) != int:
@@ -34,98 +40,80 @@ if __name__ == "__main__":
         command = str(raw_input("Enter your command (Enter 'h' for help): "))
         if command == 'h':
             # Help
-            print "s: Open up Skype"
-            print "w: Use Watson to do English (press w again to exit)"
-            print "wes: Use Watson to do Spanish (press wes again to exit)"
-            print "tw: Talk in English and use Watson"
-            print "tws: Talk in English, use Watson and translate to Spanish"
-            print "e: Open eSpeak and do English (press Ctrl+D to exit espeak)"
-            print "es: Open eSpeak and do Spanish (enter es again to exit)"
-            print "fr: Open eSpeak and do French (enter fr again to exit)"
-            print "aesenc: Encrypt text with AES 128-bits and recite ciphertext"
-            print "aesdec: Decrypt text with AES 128-bits. No voice is transmitted"
-            print "h: help"
-            print "q: Exit"
+            print "s:       Open up Skype"
+            print ">>> eSpeak:"
+            print "e:       Type in English, eSpeak synthesizes to speech (press Ctrl+D to exit espeak)"
+            print "el:      Type in English, Google translates it to a language of your choice, eSpeak synthesizes to speech"
+            print "et:      Talk in English, Google synthesizes it to text, eSpeak synthesizes it back to speech"
+            print "etl:     Talk in English, Google synthesizes it to text and translates it to a language of your choice, eSpeak then synthesizes it back to speech"
+            print ">>> Google:"
+            print "g:       Type in English, Google synthesizes to speech"
+            print "gl:      Type in English, Google translates to a language of your choice and synthesizes back to speech"
+            print "gt:      Talk in English, Google synthesizes it to text and back to speech in her own voice"
+            print "gtl:     Talk in English, Google synthesizes it to text, translates it to a language of your choice and synthesizes the result back to speech"
+            print ">>> Watson:"
+            print "w:       Type in English, Watson synthesizes to speech (press w again to exit)"
+            print "wes:     Type in English, Google translates it to Spanish, Watson synthesizes to speech (press wes again to exit)"
+            print "wt:      Talk in English, Google synthesizes it to text, Watson synthesizes it back to speech"
+            print "wtes:    Talk in English, Google synthesizes it to text and translates it to Spanish, Watson then synthesizes it back to speech"
+            print ">>> AES:"
+            print "aesenc:  Encrypt text with AES 128-bits and recite ciphertext"
+            print "aesdec:  Decrypt text with AES 128-bits. No voice is transmitted"
+            print "**********"
+            print "h:       Help"
+            print "q:       Exit"
         elif command == 's':
             # Calling Skype
             callSkype()
         elif command == 'e':
             # Calling eSpeak
             espeakstuff.callESpeak()
-        elif command == "es":
-            # eSpeak in spanish
-            temp = str(raw_input("Say something in Spanish (es to exit): "))
-            while temp != "es":
-                espeakstuff.saySpanish(temp)
-                temp = str(raw_input("Say something in Spanish (es to exit): "))
-        elif command == "fr":
-            # eSpeak in French
-            temp = str(raw_input("Say something in French (fr to exit): "))
-            while temp != "fr":
-                espeakstuff.sayFrench(temp)
-                temp = str(raw_input("Say something in French (fr to exit): "))
-        elif command == "w":
+        elif command == "el":
+            language = str(raw_input("Enter the two character code of your language: "))
+            if testl2(language):
+                espeakstuff.main(language)
+        elif command == "et":
+            # Calling eSpeak + Speech
+            espeakstuff.mainSpeech()
+        elif command == "etl":
+            # Calling eSpeak + Speech + Translate
+            language = str(raw_input("Enter the two character code of your language: "))
+            if testl2(language):
+                espeakstuff.mainSpeech(language)
+        elif command == 'g':
+            # Calling Google
+            gspeechstuff.main()
+        elif command == "gl":
+            # Calling google + translate
+            language = str(raw_input("Enter the two caracter code of your language: "))
+            if testl2(language):
+                gspeechstuff.main(language)
+        elif command == "gt":
+            # Calling google + speech
+            gspeechstuff.mainSpeech()
+        elif command == "gtl":
+            # Calling google + translate + speech
+            language = str(raw_input("Enter the two character code of your language: "))
+            if testl2(language):
+                gspeechstuff.mainSpeech(language)
+        elif command == 'w':
             # Calling Watson
-            thing = str(raw_input("Say Something (w to exit): "))
-            while thing != "w":
-                watsonstuff.callWatson(thing)
-                thing = str(raw_input("Say Something (w to exit): "))
+            watsonstuff.mainWatson()
         elif command == "wes":
             # Calling Watson and translate to Spanish
-            thing = str(raw_input("Say Something in Spanish (wes to exit): "))
-            while thing != "wes":
-                watsonstuff.saySpanish(thing)
-                thing = str(raw_input("Say Something in Spanish (wes to exit): "))
-        elif command == "tw":
+            watsonstuff.mainSpanish()
+        elif command == "wt":
             # Speech to Text + Watson (English)
-            decision = str(raw_input("Are you sure? (y/n) "))
-            while decision == 'y':
-                print "Say an English sentence."
-                p = subprocess.Popen("sox -t alsa default ../data/temp/recording.wav silence 1 0.1 5% 1 1.0 5%", shell=True)
-                stop = str(raw_input("Enter 'y' when you've finished with a sentence"))
-                if stop == 'y':
-                    pid = subprocess.Popen("pkill sox", shell=True)
-                    pid.communicate()
-                yousaid = sr.sRecognizer()
-                if yousaid != False:
-                    watsonstuff.callWatson(yousaid)
-                    decision = str(raw_input("Try it again? (y/n) "))
-                elif yousaid == False:
-                    print "Speech is unintelligible"
-                    decision = str(raw_input("Try it again? (y/n) "))
-        elif command == "tws":
+            watsonstuff.mainSpeech()
+        elif command == "wtes":
             # Speech to Text + Watson (English to Spanish)
-            decision = str(raw_input("Are you sure? (y/n) "))
-            while decision == 'y':
-                print "Say an English sentence."
-                p = subprocess.Popen("sox -t alsa default ../data/temp/recording.wav silence 1 0.1 5% 1 1.0 5%", shell=True)
-                stop = str(raw_input("Enter 'y' when you've finished with a sentence"))
-                if stop == 'y':
-                    pid = subprocess.Popen("pkill sox", shell=True)
-                    pid.communicate()
-                yousaid = sr.sRecognizer()
-                if yousaid != False:
-                    watsonstuff.saySpanish(yousaid)
-                    decision = str(raw_input("Try it again? (y/n) "))
-                elif yousaid == False:
-                    print "Speech is unintelligible"
-                    decision = str(raw_input("Try it again? (y/n) "))
+            watsonstuff.mainSpanishSpeech()
         elif command == "aesenc":
             # AES Encryption
-            message = str(raw_input("What's your secret message? "))
-            key = getpass.getpass("Enter your key (shadowed input): ")
-            ciphertext = aes.encrypt(message, key)
-            espeakstuff.sayAES(ciphertext)
+            aes.mainEnc()
         elif command == "aesdec":
             # AES Decryption
-            ciphertext = str(raw_input("What did you hear? "))
-            key = getpass.getpass("Enter the key (shadowed input): ")
-            message = aes.decrypt(ciphertext, key)
-            d = str(raw_input("Show message? (y/n) "))
-            if d == 'y':
-                print message
-            elif d != 'y':
-                pass
+            aes.mainDec()
         elif command == 'q':
             # Quit
             unloadNull(pactlID)
