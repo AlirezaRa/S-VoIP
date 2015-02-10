@@ -5,8 +5,6 @@
 To run, clone the repo (or click on "Download Zip" to your right and extract the content). Then, in src directory, run main.py:
 > $ python main.py
 
-Inside the program, type "h" for help.
-
 ---
 Basically, this program takes advantage of creating a virtual audio device for streaming audio from sources other
 than the microphone. It creates a virtual audio device. Text to speech synthesis softwares sink their output there
@@ -14,6 +12,26 @@ and a messanger sources its input from there. Since the initial sufficient input
 that can be considered as one or be transformed to one could be transfered. e.g. you may type what you want to say
 or talk and Google synthesizes your speech to text which could be passed without alteration or be translated to
 another language etc.
+
+---
+Example usage:
+Inside SVoOP, type 'm' to start the messenger. Type 'e' to run espeak. Call someone inside the messenger. 
+After sucessfully establishing a call, type inside the program and hit enter. The other side should be hearing the 
+voice not you. Press "Ctrl-D" to exit espeak and return to the program.
+
+You may want to type 'h' for other available options.
+
+---
+Warning:
+YOU MUST USE 'q' COMMAND TO EXIT THE PROGRAM TO PROPERLY UNLOAD PULSEAUDIO NULL-SYNC. Otherwise, you should
+unload module-null-sync yourself to go back to previous settings of the messanger or anything else you've loaded
+inside. To do that, go back to the first thing that appeared in the program, you'll see the index number printed
+there. Let n be that index number, the command to unload the module is:
+
+> $ pactl unload-module n
+
+All changes are in the memory, so if you don't know which modules to unload and are unable to use pulseaudio to do
+that in GUI, just restart your system and everything should be fine.
 
 ---
 Dependencies:
