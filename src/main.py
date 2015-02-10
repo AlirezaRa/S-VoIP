@@ -7,6 +7,13 @@ import watsonstuff
 import gspeechstuff
 import aes
 import os
+import ConfigParser
+
+configParser = ConfigParser.RawConfigParser()
+configFilePath = r'../config.txt'
+configParser.read(configFilePath)
+MESSENGER = configParser.get('System', 'MESSENGER')
+
 
 
 def checkDataDir():
@@ -24,9 +31,9 @@ def unloadNull(ID):
     subprocess.Popen("pactl unload-module " + str(ID), shell=True)
 
 
-def callSkype():
+def callMessenger():
     # Need to have loaded null.monitor first
-    subprocess.Popen("PULSE_SOURCE=null.monitor skype", shell=True)
+    subprocess.Popen(str("PULSE_SOURCE=null.monitor " + MESSENGER), shell=True)
 
 
 def testl2(language):
@@ -46,7 +53,7 @@ if __name__ == "__main__":
         command = str(raw_input("Enter your command (Enter 'h' for help): "))
         if command == 'h':
             # Help
-            print "s:       Open up Skype"
+            print "m:       Open up your messanger (Currently set to be: " + os.path.basename(MESSENGER) + ")"
             print ">>> eSpeak:"
             print "e:       Type in English, eSpeak synthesizes to speech (press Ctrl+D to exit espeak)"
             print "el:      Type in English, Google translates it to a language of your choice, eSpeak synthesizes to speech"
@@ -68,9 +75,9 @@ if __name__ == "__main__":
             print "**********"
             print "h:       Help"
             print "q:       Exit"
-        elif command == 's':
+        elif command == 'm':
             # Calling Skype
-            callSkype()
+            callMessenger()
         elif command == 'e':
             # Calling eSpeak
             espeakstuff.callESpeak()
