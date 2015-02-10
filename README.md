@@ -22,4 +22,3 @@ To use Watson. You need to have text to speech application installed on your Blu
 ---
 
 Disclaimer: This started a hackathon project (+)[http://challengepost.com/software/watson-over-ip] and also my second relatively non-trivial project, so the coding quality is probably not ideal.
-
