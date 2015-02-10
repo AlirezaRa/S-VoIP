@@ -8,6 +8,7 @@ import gspeechstuff
 import aes
 import os
 import ConfigParser
+from gtts import gTTS
 
 configParser = ConfigParser.RawConfigParser()
 configFilePath = r'../config.txt'
@@ -43,7 +44,7 @@ def callMessenger():
 def testl2(language):
     # Simple test of two character abbreviation of a language. The error are
     # being handled by the programs like "espeak".
-    if len(language) == 2 and language.lower() != "en":
+    if language in gTTS.LANGUAGES and language.lower() != "en":
         return True
     return False
 
@@ -96,6 +97,7 @@ if __name__ == "__main__":
             print ("aesdec:  Decrypt text with AES 128-bits. No voice is" +
                    "transmitted")
             print "**********"
+            print "l:       Available Languages"
             print "h:       Help"
             print "q:       Exit"
         elif command == 'm':
@@ -105,8 +107,7 @@ if __name__ == "__main__":
             # Calling eSpeak
             espeakstuff.callESpeak()
         elif command == "el":
-            language = str(raw_input("Enter the two character code of your" +
-                                     " language: "))
+            language = str(raw_input("Enter the code of your language: "))
             if testl2(language):
                 espeakstuff.main(language)
         elif command == "et":
@@ -114,8 +115,7 @@ if __name__ == "__main__":
             espeakstuff.mainSpeechEng()
         elif command == "etl":
             # Calling eSpeak + Speech + Translate
-            language = str(raw_input("Enter the two character code of your" +
-                                     " language: "))
+            language = str(raw_input("Enter the code of your language: "))
             if testl2(language):
                 espeakstuff.mainSpeech(language)
         elif command == 'g':
@@ -123,8 +123,7 @@ if __name__ == "__main__":
             gspeechstuff.main()
         elif command == "gl":
             # Calling google + translate
-            language = str(raw_input("Enter the two caracter code of your" +
-                                     " language: "))
+            language = str(raw_input("Enter the code of your language: "))
             if testl2(language):
                 gspeechstuff.main(language)
         elif command == "gt":
@@ -132,8 +131,7 @@ if __name__ == "__main__":
             gspeechstuff.mainSpeech()
         elif command == "gtl":
             # Calling google + translate + speech
-            language = str(raw_input("Enter the two character code of your" +
-                                     " language: "))
+            language = str(raw_input("Enter the code of your language: "))
             if testl2(language):
                 gspeechstuff.mainSpeech(language)
         elif command == 'w':
@@ -154,6 +152,11 @@ if __name__ == "__main__":
         elif command == "aesdec":
             # AES Decryption
             aes.mainDec()
+        elif command == 'l':
+            # Available languages (intersection of gtts and gtranslate)
+            print ("Available Languages are below. The language codes are" +
+                   " the abbreviated version of the language.")
+            print gTTS.LANGUAGES
         elif command == 'q':
             # Quit
             unloadNull(pactlID)
