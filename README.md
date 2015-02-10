@@ -1,4 +1,4 @@
-# [S]VoIP
+# Synthetic VoIP
 
 [Synthetic] Voice over IP
 
