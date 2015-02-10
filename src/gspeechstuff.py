@@ -12,7 +12,11 @@ def say(thing, language = ''):
         language = "en"
     if language != "en":
         thing = gtranslate.translate(thing, language, "en")
-    tts = gTTS(text=str(thing), lang=language)
+    try:
+    	tts = gTTS(text=str(thing), lang=language)
+    except:
+        print "Language Not Supported"
+        return False
     tts.save("../data/temp/google.mp3")
     if not os.path.exists("../data/temp/google.mp3"):
         print "Something went wrong with Google synthesizing your text"
