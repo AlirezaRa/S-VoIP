@@ -56,6 +56,8 @@ if __name__ == "__main__":
     if type(pactlID) != int:
         print "Loading module failed"
         sys.exit(0)
+    print ("Loaded module-null-sync with index: " + str(pactlID) +
+           " successfuly.")
     while True:
         command = str(raw_input("Enter your command (Enter 'h' for help): "))
         if command == 'h':
