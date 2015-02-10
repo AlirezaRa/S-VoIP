@@ -1,6 +1,6 @@
-# (S)VoIP
+# [S]*VoIP
 
-(Synthetic) Voice over IP
+[Synthetic]*Voice over IP
 
 To run, clone the repo (or click on "Download Zip" to your right and extract the content). Then, in src directory, run main.py:
 > $ python main.py
