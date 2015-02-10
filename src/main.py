@@ -8,6 +8,7 @@ import gspeechstuff
 import aes
 import os
 import ConfigParser
+import pprint
 from gtts import gTTS
 
 configParser = ConfigParser.RawConfigParser()
@@ -153,10 +154,18 @@ if __name__ == "__main__":
             # AES Decryption
             aes.mainDec()
         elif command == 'l':
-            # Available languages (intersection of gtts and gtranslate)
-            print ("Available Languages are below. The language codes are" +
-                   " the abbreviated version of the language.")
-            print gTTS.LANGUAGES
+            choice = str(raw_input("Available languages for (g)oogle or " +
+                                   "(e)speak?"))
+            if choice == 'g':
+                # Available languages (intersection of gtts and gtranslate)
+                print ("Available Languages are below. The language codes are" +
+                       " the abbreviated version of the language.")
+                pprint.pprint(gTTS.LANGUAGES)
+            elif choice == 'e':
+                print("To see available languages of espeak, visit: " +
+                      "http://espeak.sourceforge.net/languages.html")
+            else:
+                print "Invalid choice"
         elif command == 'q':
             # Quit
             unloadNull(pactlID)
