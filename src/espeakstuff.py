@@ -6,11 +6,15 @@ import time
 
 
 def callESpeak():
-    # Need to have loaded null.monitor first
+    # Must be used after main.loadNull()
     call("PULSE_SINK=null espeak -s 100", shell=True)
 
 
 def mainSpeechEng():
+    # For the sake of accuracy, sox records each of your sentence and saves it in temp. speechRecognition then returns 
+    # a string of the content. That is passed for synthesis to speech. Since sox has to record only one sentence, it needs to be killed 
+    # at some point. It would be killed if you press 'y' and hit enter by @stop variable. @decision is required to prevent
+    # sox record and save stuff if not wanted.
     decision = str(raw_input("Are you sure? (y/n) "))
     while decision == 'y':
         print "Say an English sentence."
@@ -31,6 +35,7 @@ def mainSpeechEng():
 
 
 def say(thing, lang = ''):
+    # Equivalent of callESpeak but for other languages.
     if lang != '':
         trtemp = gtranslate.translate(thing, lang, "en")
         p = subprocess.Popen('PULSE_SINK=null espeak "' + trtemp +
@@ -39,6 +44,7 @@ def say(thing, lang = ''):
 
 
 def main(lang):
+    # Front-end called from main.py
     assert lang != ''
     temp = str(raw_input("Say something (e" + lang + " to exit): "))
     while temp != str("e" + lang):
@@ -47,6 +53,10 @@ def main(lang):
 
 
 def mainSpeech(lang):
+    # For the sake of accuracy, sox records each of your sentence and saves it in temp. speechRecognition then returns 
+    # a string of the content. That is passed for synthesis to speech by say() for languages other than English. Since sox has to record only one sentence, it needs to be killed 
+    # at some point. It would be killed if you press 'y' and hit enter by @stop variable. @decision is required to prevent
+    # sox record and save stuff if not wanted.
     decision = str(raw_input("Are you sure? (y/n) "))
     while decision == 'y':
         print "**********"
@@ -69,6 +79,8 @@ def mainSpeech(lang):
 
 
 def sayAES(ct):
+    # Writes every character of the ciphertext in a newline inside a textfile so that espeak reads characters one by one
+    # Also espeak is used with -k 2 so that it reads x for x and Capical x for X where x and X are letters of the alphabet.
     with open("../data/temp/ciphertext.txt", 'w') as cipher:
         ct = str(ct)
         for i in range(len(ct)):
