@@ -1,6 +1,6 @@
 [System]
 
-# Enter the absolute path to the messanger of your choice.
+# Enter the absolute path to the messenger of your choice.
 MESSENGER = /usr/bin/skype
 
 # Enter the url to the Text to Speech synthesizer on your BlueMix if you're going to use Watson.
