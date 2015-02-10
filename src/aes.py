@@ -42,7 +42,8 @@ def mainEnc():
     key = getpass.getpass("Enter your key (shadowed input): ")
     ciphertext = encrypt(message, key)
     while True:
-        choice = str(raw_input("Recite to the other side using (e)Speak or (g)oogle?"))
+        choice = str(raw_input("Recite to the other side using " +
+                               "(e)speak or (g)oogle?"))
         if choice == 'e':
             espeakstuff.sayAES(ciphertext)
             break
