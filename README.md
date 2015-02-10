@@ -10,9 +10,10 @@ Dependencies:
 - pactl (Must have PULSE_SINK & PULSE_SOURCE environmental variables available.)
 - sox
 - vlc (must be installed completely to have cvlc command available)
-- espeak (optional, if you don't want to use Watson)
+- Skype (You could changer your messanger in config.txt)
+- espeak (optional, if you don't want to use Watson or Google)
 - pycrypto (optional, if you want to use AES functionality)
-- Text to Speech synthesis app running on Bluemix (optional)
+- Watson's Text to Speech synthesis app running on Bluemix (optional)
 - [gTTS](https://pypi.python.org/pypi/gTTS/1.0.2)
 - PyAudio + [SpeechRecognition](https://pypi.python.org/pypi/SpeechRecognition/)
 
