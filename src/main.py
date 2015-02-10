@@ -6,7 +6,12 @@ import espeakstuff
 import watsonstuff
 import gspeechstuff
 import aes
+import os
 
+
+def checkDataDir():
+    if not os.path.exists("../data/temp"):
+        os.makedirs("../data/temp")
 
 def loadNull():
     procID = subprocess.check_output("pactl load-module module-null-sink",
@@ -32,6 +37,7 @@ def testl2(language):
 
 
 if __name__ == "__main__":
+    checkDataDir()
     pactlID = loadNull()
     if type(pactlID) != int:
         print "Loading module failed"
