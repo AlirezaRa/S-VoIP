@@ -8,6 +8,7 @@ import string
 
 
 def say(thing, language = ''):
+    # granslate, translates stuff and tts creates an mp3 which is to be streamed by cvlc.
     if language == '':
         language = "en"
     if language != "en":
@@ -26,6 +27,7 @@ def say(thing, language = ''):
 
 
 def main(lang = ''):
+    # Front-end that is called from main.py
     thing = str(raw_input("Say Something (g" + lang + " to exit): "))
     while thing != str("g" + lang):
         say(thing, lang)
@@ -33,6 +35,10 @@ def main(lang = ''):
 
 
 def mainSpeech(lang = ''):
+    # For the sake of accuracy, sox records each of your sentence and saves it in temp. speechRecognition then returns 
+    # a string of the content. That is passed for synthesis to speech. Since sox has to record only one sentence, it needs to be killed 
+    # at some point. It would be killed if you press 'y' and hit enter by @stop variable. @decision is required to prevent
+    # sox record and save stuff if not wanted.
     decision = str(raw_input("Are you sure? (y/n) "))
     while decision == 'y':
         print "Say an English sentence."
@@ -53,6 +59,8 @@ def mainSpeech(lang = ''):
 
 
 def sayAES(ct):
+    # Tranforms the ciphertext into another string which is eventually identical to the original, yet Google translate
+    # says each character one by one and says x for x and Capitcal x for X where x and X are letters of the alphabet.
     templist = []
     for element in ct:
         if element in string.ascii_uppercase:
