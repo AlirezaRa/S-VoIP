@@ -23,9 +23,9 @@ def say(thing, language=''):
     if not os.path.exists("../data/temp/google.mp3"):
         print "Something went wrong with Google synthesizing your text"
         return False
-    p = subprocess.Popen(str("PULSE_SINK=null cvlc --no-repeat " +
+    p = subprocess.Popen(str("PULSE_SINK=null cvlc --no-repeat --no-loop " +
                              "--play-and-exit ../data/temp/google.mp3"),
-                             shell=True)
+                         shell=True)
     p.communicate()
 
 
@@ -85,13 +85,16 @@ def sayAES(ct):
     if not os.path.exists("../data/temp/googlect.mp3"):
         print "Something went wrong with Google synthesizing your ciphertext"
         return False
-    p = subprocess.Popen(str("PULSE_SINK=null cvlc --play-and-exit " +
-                             "../data/temp/googlewarning.mp3"), shell=True)
+    p = subprocess.Popen(str("PULSE_SINK=null cvlc --no-repeat --no-loop " +
+                             "--play-and-exit ../data/temp/googlewarning.mp3"),
+                         shell=True)
     p.communicate()
     time.sleep(1)
-    p = subprocess.Popen(str("PULSE_SINK=null cvlc --play-and-exit " +
-                             "../data/temp/googlect.mp3"), shell=True)
+    p = subprocess.Popen(str("PULSE_SINK=null cvlc --no-repeat --no-loop " +
+                             "--play-and-exit ../data/temp/googlect.mp3"),
+                         shell=True)
     p.communicate()
-    p = subprocess.Popen(str("PULSE_SINK=null cvlc --play-and-exit " +
-                             "../data/temp/googleend.mp3"), shell=True)
+    p = subprocess.Popen(str("PULSE_SINK=null cvlc --no-repeat --no-loop " +
+                             "--play-and-exit ../data/temp/googleend.mp3"),
+                         shell=True)
     p.communicate()

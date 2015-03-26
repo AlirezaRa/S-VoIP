@@ -102,9 +102,8 @@ def sayAES(ct):
                              "Incoming Ciphertext.' -s 100"), shell=True)
     p.communicate()
     time.sleep(2)
-    p = subprocess.Popen(str("PULSE_SINK=null cvlc --no-repeat " +
-                             "--play-and-exit ../data/temp/ct.wav"),
-                        shell=True)
+    p = subprocess.Popen(str("PULSE_SINK=null cvlc --no-repeat --no-loop " +
+                             "--play-and-exit ../data/temp/ct.wav"), shell=True)
     p.communicate()
     time.sleep(1)
     p = subprocess.Popen(str("PULSE_SINK=null espeak 'End of ciphertext.' " +
