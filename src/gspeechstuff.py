@@ -23,8 +23,9 @@ def say(thing, language=''):
     if not os.path.exists("../data/temp/google.mp3"):
         print "Something went wrong with Google synthesizing your text"
         return False
-    p = subprocess.Popen(str("PULSE_SINK=null cvlc --play-and-exit " +
-                             "../data/temp/google.mp3"), shell=True)
+    p = subprocess.Popen(str("PULSE_SINK=null cvlc --no-repeat " +
+                             "--play-and-exit ../data/temp/google.mp3"),
+                             shell=True)
     p.communicate()
 
 
