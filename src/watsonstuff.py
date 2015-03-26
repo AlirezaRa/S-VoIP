@@ -22,7 +22,7 @@ def callWatson(thing):
         print "Something went wrong with Watson synthesizing your text"
         return False
     p = subprocess.Popen(str("PULSE_SINK=null cvlc --no-repeat " + 
-                             "--play-and-exit ../data/temp/eng.ogg"), +
+                             "--play-and-exit ../data/temp/eng.ogg"),
                              shell=True)
     p.communicate()
 
