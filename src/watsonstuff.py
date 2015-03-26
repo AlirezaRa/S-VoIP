@@ -21,8 +21,9 @@ def callWatson(thing):
     if not os.path.exists("../data/temp/eng.ogg"):
         print "Something went wrong with Watson synthesizing your text"
         return False
-    p = subprocess.Popen(str("PULSE_SINK=null cvlc --play-and-exit " +
-                             "../data/temp/eng.ogg"), shell=True)
+    p = subprocess.Popen(str("PULSE_SINK=null cvlc --no-repeat " + 
+                             "--play-and-exit ../data/temp/eng.ogg"), +
+                             shell=True)
     p.communicate()
 
 
@@ -70,8 +71,9 @@ def saySpanish(thing):
     if not os.path.exists("../data/temp/es.ogg"):
         print "Something went wrong with Watson synthesizing your text"
         return False
-    p = subprocess.Popen(str("PULSE_SINK=null cvlc --play-and-exit " +
-                             "../data/temp/es.ogg"), shell=True)
+    p = subprocess.Popen(str("PULSE_SINK=null cvlc --no-repeat " + 
+                             "--play-and-exit ../data/temp/es.ogg"), + 
+                             shell=True)
     p.communicate()
 
 
