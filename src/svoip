@@ -27,7 +27,7 @@ def argument_handler():
                         type=str, required=True)
     parser.add_argument("-s", "--words_per_minute",
                         help="Specify output speed in terms of word per minute",
-                        type=int, default=75)
+                        type=int, default=100)
     args = parser.parse_args()
     # Checks the output of `which` to see if the input of messenger is valid
     try:
@@ -85,17 +85,11 @@ def run_messenger(messenger, pactl_module_name="SVOIP"):
     ----------
     messenger           str
     pactl_module_name   str
-
-    Returns
-    -------
-    messenger_pid       int
     """
-    messenger_pid = subprocess.Popen(
+    subprocess.Popen(
         "PULSE_SOURCE={}.monitor {} 2>/dev/null >/dev/null &".format(
             pactl_module_name, messenger),
         shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    print "Skype is running with pid={}".format(messanger_pid)
-    return messenger_pid
 
 
 def run_espeak(words_per_minute, pactl_module_name="SVOIP"):
@@ -113,15 +107,16 @@ def run_espeak(words_per_minute, pactl_module_name="SVOIP"):
         try:
             text = str(raw_input(
                 "Type something for synthesization, or Ctrl+c to quit: "))
-            subprocess.Popen("PULSE_SINK={} espeak -s {} {}".format(
+            subprocess.Popen("""PULSE_SINK={} espeak -s {} "{}" """.format(
                 pactl_module_name, words_per_minute, text),
                 shell=True).communicate()
         except (KeyboardInterrupt, EOFError):
             break
+
 
 if __name__ == "__main__":
     messenger, words_per_minute = argument_handler()
     pactl_module_index = load_pactl_module_null_sink()
     messanger_pid = run_messenger(messenger)
     run_espeak(words_per_minute)
-    unload_pactl_module_null_sink(pactl_module_id)
+    unload_pactl_module_null_sink(pactl_module_index)
