@@ -18,7 +18,10 @@
 
 
 import argparse
+import os
+import signal
 import subprocess
+import time
 
 
 def argument_handler():
@@ -36,6 +39,29 @@ def argument_handler():
         print "{} is not in your path".format(args.messenger)
         raise SystemExit
     return args.messenger, args.words_per_minute
+
+
+def get_pid_list_for_process(process_name):
+    """
+    Returns a list of pids with the name `process_name`
+
+    Parameters
+    ----------
+    process_name        str
+
+    Returns
+    -------
+    pid_list            One of:
+                        - [int]
+                        - []
+    """
+    try:
+        pid_list = map(int,
+                       subprocess.check_output(
+                           "pidof {}".format(messenger), shell=True).split())
+    except subprocess.CalledProcessError:
+        pid_list = []
+    return pid_list
 
 
 def load_pactl_module_null_sink(pactl_module_name="SVOIP"):
@@ -86,10 +112,30 @@ def run_messenger(messenger, pactl_module_name="SVOIP"):
     messenger           str
     pactl_module_name   str
     """
+    pid_list = get_pid_list_for_process(messenger)
+    # Ensuring the messenger is not already running
+    if len(pid_list):
+        print "{} is already running, attempting to kill.".format(messenger)
+        kill_messenger(messenger)
+        time.sleep(3)
     subprocess.Popen(
         "PULSE_SOURCE={}.monitor {} 2>/dev/null >/dev/null &".format(
             pactl_module_name, messenger),
         shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+
+def kill_messenger(messenger):
+    """
+    Terminates the messenger at the end of this program.
+
+    Parameters
+    ----------
+    messenger           str
+    """
+    pid_list = get_pid_list_for_process(messenger)
+    for pid in pid_list:
+        os.kill(pid, signal.SIGTERM)
+        print "{} with pid={} was killed".format(messenger, pid)
 
 
 def run_espeak(words_per_minute, pactl_module_name="SVOIP"):
@@ -111,6 +157,7 @@ def run_espeak(words_per_minute, pactl_module_name="SVOIP"):
                 pactl_module_name, words_per_minute, text),
                 shell=True).communicate()
         except (KeyboardInterrupt, EOFError):
+            print "\n"
             break
 
 
@@ -120,3 +167,4 @@ if __name__ == "__main__":
     messanger_pid = run_messenger(messenger)
     run_espeak(words_per_minute)
     unload_pactl_module_null_sink(pactl_module_index)
+    kill_messenger(messenger)
