@@ -1,55 +1,31 @@
 # Synthetic VoIP
-
 [Synthetic] Voice over IP
 
-To run, clone the repo (or click on "Download Zip" to your right and extract the content). Then, in src directory, run main.py:
-> $ python main.py
-
----
-Basically, this program takes advantage of creating a virtual audio device for streaming audio from sources other
-than the microphone. It creates a virtual audio device. Text to speech synthesis softwares sink their output there
-and a messanger sources its input from there. Since the initial sufficient input is text i.e. a string, anything 
-that can be considered as one or be transformed to one could be transfered. e.g. you may type what you want to say
-or talk and Google synthesizes your speech to text which could be passed without alteration or be translated to
-another language etc.
-
----
-Example usage:
-Inside SVoOP, type 'm' to start the messenger. Type 'e' to run espeak. Call someone inside the messenger. 
-After sucessfully establishing a call, type inside the program and hit enter. The other side should be hearing the 
-voice not you. Press "Ctrl-D" to exit espeak and return to the program.
-
-You may want to type 'h' for other available options.
-
----
-Warning:
-YOU MUST USE 'q' COMMAND TO EXIT THE PROGRAM TO PROPERLY UNLOAD PULSEAUDIO NULL-SYNC. Otherwise, you should
-unload module-null-sync yourself to go back to previous settings of the messanger or anything else you've loaded
-inside. To do that, go back to the first thing that appeared in the program, you'll see the index number printed
-there. Let n be that index number, the command to unload the module is:
-
-> $ pactl unload-module n
-
-All changes are in the memory, so if you don't know which modules to unload and are unable to use pulseaudio to do
-that in GUI, just restart your system and everything should be fine.
-
----
-Dependencies:
-- python 2.7 (Of course!)
-- pactl (Must have PULSE_SINK & PULSE_SOURCE environmental variables available.)
-- sox
-- vlc (must be installed completely to have cvlc command available)
-- Skype (You could change your messanger in config.txt)
-- espeak (optional, if you don't want to use Watson or Google)
-- pycrypto (optional, if you want to use AES functionality)
-- Watson's Text to Speech synthesis app running on Bluemix (optional)
-- [gTTS](https://pypi.python.org/pypi/gTTS/1.0.2)
-- PyAudio + [SpeechRecognition](https://pypi.python.org/pypi/SpeechRecognition/)
-
----
-To use Watson. You need to have text to speech application installed on your Bluemix account and replace the link to your application in config.txt
-
 ---
 
-Disclaimer: Coding quality should not be ideal since this started a hackathon project at [HopHacks Spring 2015](http://challengepost.com/software/watson-over-ip) (although design desicions have been
-changed) and also my second relatively non-trivial project ever.
+Voice modulation devices, while attempting to anonymize the voice by changing the pitch, usually leak information such as the accent of the speaker, intonation, environmental noise etc. 
+This hack uses a synthetic voice (espeak) to eliminate these leakages.
+
+## How does it work
+A virtual audio device is made whose input is the output of espeak and whose output is the input of a messenger like Skype. Therefore by typing into the espeak, the generated sound would be passed through Skype.
+It's trivial to add speech recognition and pass the result to espeak, I may do it in the future.
+
+## Dependencies:
+- pactl
+- espeak
+- A messenger capable of making an audio call like Skype
+
+## How to work with it
+Clone the repo. Give src/svoip executable permission. Do `PATH-TO-SVOIP/src/svoip -m MESSENGER` where `MESSENGER` is a messenger capable of making an audio call like Skype (it should be in your paths e.g. if the MESSENGER is Skype, then typing `skype` into the terminal should execute the program). You may also add `-s WORDS_PER_MINUTE` which would be the speed of espeak in terms of word sper minute.
+After the execution of the program, make the call through the opened up messenger and when the call is established, type into the terminal.
+To exit, do `CTRL+D` as it is indicated within the main loop.
+
+## Warning:
+YOU MUST EXIT THE PROGRAM WITH A CTRL+C TO PROPERLY UNLOAD PULSEAUDIO NULL-SYNC. Otherwise you need to get the module index number of the module-null-sink that was loaded by the program and unload it manually.
+To get the index, do `pactl list short modules | grep SVOIP`. If an index is `n`, then do `pactl unload-module n`.
+Nevertheless all changes done by the program are temporary and a restart should fix the problem as well!
+
+
+
+## Disclaimer
+This was originally a project [HopHacks Spring 2015](http://challengepost.com/software/watson-over-ip). The current version is a hugely simplified version of the version demoed at the hackathon.
