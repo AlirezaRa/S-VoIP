@@ -33,4 +33,4 @@ Nevertheless all changes done by the program are temporary and a restart should 
 
 
 ## Disclaimer
-This was originally a project [HopHacks Spring 2015](http://challengepost.com/software/watson-over-ip). The current version is a hugely simplified version of the version demoed at the hackathon.
+This was originally a project [HopHacks Spring 2015](https://devpost.com/software/watson-over-ip). The current version is a hugely simplified version of the version demoed at the hackathon.
