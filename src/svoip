@@ -48,31 +48,31 @@ def load_pactl_module_null_sink(pactl_module_name="SVOIP"):
 
     Returns
     -------
-    proc_id             int
-                        The id number of the loaded null-sink module. It'll be
+    module_index        int
+                        The inex number of the loaded null-sink module. It'll be
                         used later to unload the module after exiting the
                         program.
     """
-    proc_id = subprocess.check_output(
+    module_index = subprocess.check_output(
         "pactl load-module module-null-sink sink_name={}".format(
             pactl_module_name),
         shell=True)
-    proc_id = int(proc_id.rstrip('\n'))
+    module_index = int(module_index.rstrip('\n'))
     print (
         "Loaded module-null-sync with index {} named '{}' successfuly.".format(
-            proc_id, pactl_module_name))
-    return proc_id
+            module_index, pactl_module_name))
+    return module_index
 
 
-def unload_pactl_module_null_sink(proc_id):
+def unload_pactl_module_null_sink(module_index):
     """
     Unloads pactl null-sink module.
 
     Parameters
     ----------
-    proc_id             int
+    module_index        int
     """
-    subprocess.Popen("pactl unload-module {}".format(proc_id),
+    subprocess.Popen("pactl unload-module {}".format(module_index),
                      shell=True).communicate()
 
 
@@ -121,7 +121,7 @@ def run_espeak(words_per_minute, pactl_module_name="SVOIP"):
 
 if __name__ == "__main__":
     messenger, words_per_minute = argument_handler()
-    pactl_module_id = load_pactl_module_null_sink()
+    pactl_module_index = load_pactl_module_null_sink()
     messanger_pid = run_messenger(messenger)
     run_espeak(words_per_minute)
     unload_pactl_module_null_sink(pactl_module_id)
