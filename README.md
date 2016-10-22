@@ -1,5 +1,5 @@
 # Synthetic VoIP
-[Synthetic] Voice over IP
+Passing a synthetic voice through a call
 
 ---
 
