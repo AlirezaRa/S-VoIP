@@ -164,7 +164,7 @@ def run_espeak(words_per_minute, pactl_module_name="SVOIP"):
 if __name__ == "__main__":
     messenger, words_per_minute = argument_handler()
     pactl_module_index = load_pactl_module_null_sink()
-    messanger_pid = run_messenger(messenger)
+    run_messenger(messenger)
     run_espeak(words_per_minute)
     unload_pactl_module_null_sink(pactl_module_index)
     kill_messenger(messenger)
